@@ -31,36 +31,37 @@ const { title } = Astro.props;
 
 <style is:global>
   :root {
-    --c-bg: #fbfbfb;
-    --c-fg: #444444;
-    --c-scroll: #d9d9d9;
-    --c-scroll-hover: #bbbbbb;
-    scrollbar-color: var(--c-scrollbar) var(--c-bg);
+    --c-bg: #ffffff; /* 白色背景 */
+    --c-fg: #333333; /* 深灰色字体，提高对比度 */
+    --c-scroll: #cccccc; /* 浅灰色滚动条 */
+    --c-scroll-hover: #999999; /* 深灰色滚动条悬停状态 */
+    scrollbar-color: var(--c-scroll) var(--c-bg);
   }
 
   html {
-    font-family: system-ui, sans-serif;
+    font-family: Arial, sans-serif; /* 使用更为常见的字体 */
     background-color: var(--c-bg);
     color: var(--c-fg);
   }
 
   html.dark {
-    --c-bg: #212129;
-    --c-fg: #ddddf0;
-    --c-scroll: #333333;
-    --c-scroll-hover: #555555;
+    --c-bg: #1a1a1a; /* 深色模式背景 */
+    --c-fg: #f5f5f5; /* 深色模式字体 */
+    --c-scroll: #4d4d4d;
+    --c-scroll-hover: #666666;
   }
 
   main {
-    max-width: 70ch;
+    max-width: 80ch;
     min-height: calc(100vh - 4rem);
     margin: 0 auto;
-    padding: 6rem 2rem 4rem;
+    padding: 4rem 1rem;
   }
 
+  /* 滚动条样式 */
   ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 8px;
+    height: 8px;
   }
   ::-webkit-scrollbar-thumb {
     background-color: var(--c-scroll);
@@ -73,9 +74,11 @@ const { title } = Astro.props;
     background-color: var(--c-bg);
   }
 
+  /* 响应式设计调整 */
   @media screen and (max-width: 768px) {
     main {
-      min-height: calc(100vh - 4.5rem);
+      min-height: calc(100vh - 3.5rem);
+      padding: 3rem 0.5rem;
     }
   }
   ::view-transition-old(root),
@@ -102,20 +105,8 @@ const { title } = Astro.props;
 </style>
 
 <script>
-const initTheme = () => {
-  const darkSchema
-    = window.matchMedia
-    && window.matchMedia('(prefers-color-scheme: dark)').matches
-  const storageTheme = localStorage.getItem('theme')
-  if (storageTheme) {
-    document.documentElement.classList.toggle(
-      'dark',
-      storageTheme === 'dark',
-    )
-  } else {
-    document.documentElement.classList.toggle('dark', darkSchema)
-  }
-}
-
-initTheme()
+const darkSchema = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+const storageTheme = localStorage.getItem('theme')
+const isDarkMode = storageTheme ? storageTheme === 'dark' : darkSchema
+document.documentElement.classList.toggle('dark', isDarkMode)
 </script>
